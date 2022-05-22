@@ -2,7 +2,7 @@
 Kotlin Basics by JetBrains Academy
 
 
-### [Converter from any bases to any bases even numbers with fraction part](https://github.com/VukolRo/Kotlin_Basics/tree/main/numbe_base_converter)
+### [Converter from any bases to any bases even numbers with fraction part](https://github.com/VukolRo/Kotlin_Basics/tree/main/number_base_converter)
 My very first project on Kotlin programming language which is part of JetBrains Academy Kotlin Basics course.
 
 What I have learned during this project:
@@ -38,7 +38,7 @@ Conversion result: > // followed by the number in the target base
 Then, the program asks for the new number to convert from the previously provided source base to the target base. To change the bases, the user can choose the BACK command and return to the first level menu to make the necessary changes.
 
 ### To run the program:
-- clone [that](https://github.com/VukolRo/Kotlin_Basics/tree/main/numbe_base_converter) repository to your computer
+- clone [that](https://github.com/VukolRo/Kotlin_Basics/tree/main/number_base_converter) repository to your computer
 - open Main.kt file which has path: numbe_base_converter/Number Base Converter/task/src/converter/Main.kt
 - build the project in your IDE
 - use terminal to operate with it and follow instruction there
