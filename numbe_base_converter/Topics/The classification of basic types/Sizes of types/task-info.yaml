@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: The size of a type can be dynamically changed to accommodate a value desired
+    by the user.
+- text: The size of a type depends on the platform where the program is executed.
+- text: The size of a type does not depend on the operating system and hardware and
+    cannot be changed.
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4616#comment
+status: Solved
+record: -1

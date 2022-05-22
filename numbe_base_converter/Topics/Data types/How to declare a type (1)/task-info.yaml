@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: val lang = "Kotlin"
+- text: val String lang = "Kotlin"
+- text: 'val lang: String = "Kotlin"'
+- text: String lang = "Kotlin"
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4399#comment
+status: Solved
+record: -1
+custom_name: How to declare a type

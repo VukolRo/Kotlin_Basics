@@ -1,0 +1,59 @@
+<h2>The classification of basic types</h2>
+<html>
+ <head></head>
+ <body>
+  <p>In this topic, we will learn about the classification and properties of <strong>basic types </strong>in Kotlin. You may know some of them. Basic types can be separated into several groups according to their meaning. The types from the same group operate similarly, but they have different sizes and, as a consequence, represent different ranges of values.</p> 
+  <h5 style="text-align: center;" id="numbers">Numbers</h5> 
+  <p>Kotlin provides several types for <strong>integers</strong> and <strong>fractional</strong> numbers.</p> 
+  <p><strong>Integer numbers</strong> (0, 1, 2, ...) are represented by the following four types: <code class="language-kotlin">Long</code>, <code class="language-kotlin">Int</code>, <code class="language-kotlin">Short</code>, <code class="language-kotlin">Byte</code> (from the largest to the smallest). These types have different sizes and may represent different ranges of values. The integer type range can be calculated as −(2<sup>n−1</sup>) to (2<sup>n−1</sup>)−1, where <strong>n</strong> is the number of bits. The range includes 0, that's why we subtract 1 from the upper bound.</p> 
+  <ul> 
+   <li><code class="language-kotlin">Byte</code>: 8 bits (1 byte), range varies from -128 to 127;</li> 
+   <li><code class="language-kotlin">Short</code>: 16 bits (2 bytes), range varies from -32768 to 32767;</li> 
+   <li><code class="language-kotlin">Int</code>: 32 bits (4 bytes), range varies from −(2<sup>31</sup>) to (2<sup>31</sup>)−1;</li> 
+   <li><code class="language-kotlin">Long</code>: 64 bits (8 bytes), range varies from −(2<sup>63</sup>) to (2<sup>63</sup>)−1.</li> 
+  </ul> 
+  <p>The size cannot be changed. It does not depend on the operating system or hardware.</p> 
+  <p>The most common integer types are <code class="language-kotlin">Int</code> and <code class="language-kotlin">Long</code>. Try to stick to <code class="language-kotlin">Int</code> in practice. If you need more freedom for your numbers, use <code class="language-kotlin">Long</code>:</p> 
+  <pre><code class="language-kotlin">val zero = 0 // Int
+val one = 1  // Int
+val oneMillion = 1_000_000  // Int
+
+val twoMillion = 2_000_000L           // Long because it is tagged with L
+val bigNumber = 1_000_000_000_000_000 // Long, Kotlin automatically chooses it (Int is too small)
+val ten: Long = 10                    // Long because the type is specified
+
+val shortNumber: Short = 15 // Short because the type is specified
+val byteNumber: Byte = 15   // Byte because the type is specified</code></pre> 
+  <p><strong>Floating-point types</strong> represent numbers with fractional parts. Kotlin has two such types: <code class="language-kotlin">Double</code> (64 bits) and <code class="language-kotlin">Float</code> (32 bits). These types can store only a limited number of decimal digits (~6-7 for <code class="language-kotlin">Float</code> and ~14-16 for <code class="language-kotlin">Double</code>). The <code class="language-kotlin">Double</code> type is more common in practice:</p> 
+  <pre><code class="language-kotlin">val pi = 3.1415              // Double
+val e = 2.71828f             // Float because it is tagged with f
+val fraction: Float = 1.51f  // Float because the type is specified</code></pre> 
+  <p>To display the maximum and minimum value of a numeric type (including <code class="language-kotlin">Double</code> and <code class="language-kotlin">Float</code>), you need to write the type name followed by a dot <code class="language-kotlin">.</code> and then either <code class="language-kotlin">MIN_VALUE</code> or <code class="language-kotlin">MAX_VALUE</code>:</p> 
+  <pre><code class="language-kotlin">println(Int.MIN_VALUE)  // -2147483648
+println(Int.MAX_VALUE)  // 2147483647
+println(Long.MIN_VALUE) // -9223372036854775808
+println(Long.MAX_VALUE) // 9223372036854775807</code></pre> 
+  <p>It is also possible to get the size of an integer type in bytes or bits (1 byte = 8 bits):</p> 
+  <pre><code class="language-kotlin">println(Int.SIZE_BYTES) // 4
+println(Int.SIZE_BITS)  // 32</code></pre> 
+  <h5 style="text-align: center;" id="characters">Characters</h5> 
+  <p>Kotlin has a <code class="language-kotlin">Char</code> type to represent various letter characters (uppercase and lowercase), digits, and other symbols. Each character is a letter character in <strong>single quotes</strong>. The size is similar to the <code class="language-kotlin">Short</code> type (2 bytes = 16 bits):</p> 
+  <pre><code class="language-kotlin">val lowerCaseLetter = 'a'
+val upperCaseLetter = 'Q'
+val number = '1'
+val space = ' '
+val dollar = '$'</code></pre> 
+  <p>Characters can represent symbols of many alphabets, including hieroglyphs and some special symbols, which we will consider later.</p> 
+  <h5 style="text-align: center;" id="booleans">Booleans</h5> 
+  <p>Kotlin provides a type called <code class="language-kotlin">Boolean</code>. It can store only two values: <code class="language-kotlin">true</code> and <code class="language-kotlin">false</code>. It represents only one bit of information, but its size is not precisely defined.</p> 
+  <pre><code class="language-kotlin">val enabled = true
+val bugFound = false</code></pre> 
+  <p>We will often use this type in conditionals.</p> 
+  <h5 style="text-align: center;" id="strings">Strings</h5> 
+  <p>The <code class="language-kotlin">String</code> type represents a sequence of characters in <strong>double quotes</strong>. It is one of the most popular types.</p> 
+  <pre><code class="language-kotlin">val creditCardNumber = "1234 5678 9012 3456"
+val message = "Learn Kotlin instead of Java."</code></pre> 
+  <h5 style="text-align: center;" id="conclusion">Conclusion</h5> 
+  <p>In this topic, we have discussed the most common types: <code class="language-kotlin">String</code>, <code class="language-kotlin">Int</code>, <code class="language-kotlin">Long</code>, <code class="language-kotlin">Boolean</code>, <code class="language-kotlin">Char</code>, and <code class="language-kotlin">Double</code>. We will learn about other data types later. Remember, <code class="language-kotlin">Long</code> is the largest integer type. Knowing sizes and ranges of integer types may help with a job interview.</p>
+ </body>
+</html>

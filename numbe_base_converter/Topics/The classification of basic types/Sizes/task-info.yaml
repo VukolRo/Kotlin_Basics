@@ -1,0 +1,24 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Byte is 8 bits
+- text: Short is 32 bits
+- text: Char is 16 bits
+- text: Char is 32 bits
+- text: Int is 16 bits
+- text: Int is 32 bits
+- text: Long is 64 bits
+- text: Long is 128 bits
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4463#comment
+status: Solved
+record: -1

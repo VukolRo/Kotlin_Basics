@@ -1,0 +1,23 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    fun main() {
+        val var: String = "Kotlin "
+        val part2 = is a cross-platform
+        String val = ", statically typed, "
+        val part4 = "general-purpose programming language with type coercion."
+
+        print(part1)
+        print(part2)
+        print(part3)
+        print(part4)
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/16077#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 07 May 2022 06:58:59 UTC
+record: -1

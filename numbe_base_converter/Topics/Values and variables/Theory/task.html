@@ -1,0 +1,73 @@
+<h2>Values and variables</h2>
+<html>
+ <head></head>
+ <body>
+  <h5 style="text-align: center;" id="what-is-a-variable">What is a variable?</h5> 
+  <p>A variable is a storage for a value, which can be a string, a number, or something else. Every variable has a <strong>name</strong> (or an <strong>identifier</strong>) to distinguish it from other variables. You can access a value by the name of the variable.</p> 
+  <p>Variables are one of the most often used elements in programs; therefore, it is important to understand how to use them.</p> 
+  <h5 style="text-align: center;" id="declaring-variables">Declaring variables</h5> 
+  <p>Before you can start using a variable, you must declare it. To declare a variable, Kotlin provides two keywords:</p> 
+  <ul> 
+   <li><code class="language-kotlin">val</code> (for <em>value</em>) declares an <strong>immutable variable</strong> (just a <strong>named value</strong> or a <strong>constant</strong>), which cannot be changed after it has been initialized (this is actually not entirely true, we will discuss this issue in more detail later);</li> 
+   <li><code class="language-kotlin">var</code> (for <em>variable</em>) declares a <strong>mutable variable</strong>, which can be changed (as many times as needed).</li> 
+  </ul> 
+  <p><span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span></p>
+  <div class="alert alert-primary">
+   Both 
+   <code class="language-kotlin">val</code> and 
+   <code class="language-kotlin">var</code> keywords provide you a variable!
+   <span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span>
+  </div>
+  <p></p> 
+  <p>When you declare a variable, you must add its name after one of these two keywords. Be careful: the name of a variable cannot start with a digit. Usually, it starts with a letter. You should choose meaningful and readable names for variables to make your code easy to understand.</p> 
+  <p>To assign a certain value to a variable, we should use the assignment operator <code class="language-kotlin">=</code>.</p> 
+  <p>Let's declare an immutable variable named <code class="language-kotlin">language</code> and initialize it with the string <code class="language-kotlin">"Kotlin"</code>.</p> 
+  <pre><code class="language-kotlin">val language = "Kotlin"</code></pre> 
+  <p>Now we can access this string by the variable's name. Let's print it!</p> 
+  <pre><code class="language-kotlin">println(language) // prints "Kotlin" without quotes</code></pre> 
+  <p>This variable cannot be modified after it has been initialized because it was declared as <code class="language-kotlin">val</code>.</p> 
+  <p><span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span></p>
+  <div class="alert alert-warning">
+   Names are case-sensitive: 
+   <code class="language-kotlin">language</code> is not the same as 
+   <code class="language-kotlin">Language</code>.
+   <span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span>
+  </div>
+  <p></p> 
+  <p>Now, let's declare a mutable variable named <code class="language-kotlin">dayOfWeek</code> and print its value before and after changing it.</p> 
+  <pre><code class="language-kotlin">var dayOfWeek = "Monday"
+println(dayOfWeek) // prints Monday
+
+dayOfWeek = "Tuesday"
+println(dayOfWeek) // prints Tuesday</code></pre> 
+  <p>In the example above, we declared a variable named <code class="language-kotlin">dayOfWeek</code> and initialized it with the value <code class="language-kotlin">"Monday"</code>. Then we accessed the value by the variable name and printed it. After that, we changed the variable's value to <code class="language-kotlin">"Tuesday"</code> and printed this new value.</p> 
+  <p><span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span></p>
+  <div class="alert alert-primary">
+   You do not need to declare a variable again to change its value. Just assign a new value to it using the 
+   <code class="language-kotlin">=</code> operator.
+   <span style="background-color: transparent; color: #000000; font-size: 11pt; font-variant: normal;"></span>
+  </div>
+  <p></p> 
+  <p>It is also possible to declare and initialize a variable with the value of another variable:</p> 
+  <pre><code class="language-kotlin">val cost = 3
+val costOfCoffee = cost
+println(costOfCoffee) // prints 3</code></pre> 
+  <h5 style="text-align: center;" id="storing-different-types-of-values">Storing different types of values</h5> 
+  <p>We've already mentioned that variables can store different types of values: strings, numbers, characters, and other data types, which we will encounter later.</p> 
+  <p>Let's declare three immutable variables to store a number, a string, and a character and then print their values.</p> 
+  <pre><code class="language-kotlin">val ten = 10
+val greeting = "Hello"
+val firstLetter = 'A'
+
+println(ten) // prints 10
+println(greeting) // prints Hello
+println(firstLetter) // prints A</code></pre> 
+  <p>There is one restriction for mutable variables (the ones declared with the keyword <code class="language-kotlin">var</code>), though. When reassigning their values, you can only use new values of the same type as the initial one. So, the piece of code below is not correct:</p> 
+  <pre><code class="language-kotlin">var number = 10
+number = 11 // ok
+number = "twelve" // an error here!</code></pre> 
+  <p>Please remember this restriction!</p> 
+  <h5 style="text-align: center;" id="conclusion">Conclusion</h5> 
+  <p>Now you know, there are two keywords that are used to declare variables. Actually, in many cases, it is better to use immutable variables (those declared with the keyword <code class="language-kotlin">val</code>). Before using <code class="language-kotlin">var</code>, you should make sure that <code class="language-kotlin">val</code> is not suitable in that case. If it really isn't, use <code class="language-kotlin">var</code>. Although, keep in mind that the more mutable variables in your code, the harder it is to read. Remember, immutable variables help write more readable code. So, please, use <code class="language-kotlin">val</code> whenever possible! You can easily replace it with <code class="language-kotlin">var</code> when you absolutely have to.</p>
+ </body>
+</html>

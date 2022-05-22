@@ -1,0 +1,23 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: 'val age: Int = 42'
+- text: Int age = 42
+- text: 'val age = “42”: String'
+- text: String age = “42”
+- text: var age = 42
+- text: 'val age: String = “42”'
+- text: 'val age: Char = ‘42’'
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/13660#comment
+status: Solved
+record: -1

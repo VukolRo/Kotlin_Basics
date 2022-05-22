@@ -1,0 +1,14 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: "fun main() {\n    var (a, b) = readLine()!!.split(\" \").map { it.toInt()\
+    \ }\n    // Write only exchange actions here. Do not touch the lines above\n \
+    \   val c = \n\n\n    // Do not touch the lines below\n    print(\"$a $b\")\n}"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7308#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 07 May 2022 06:05:44 UTC
+record: -1

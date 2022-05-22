@@ -1,0 +1,31 @@
+<h2>Sum of numbers</h2>
+<html>
+ <head></head>
+ <body>
+  <p>Choose the correct ways to find the sum of integer numbers in the <code class="language-kotlin">numbers</code> list.</p> 
+  <p> a)</p> 
+  <pre><code class="language-kotlin">var sum = 0
+for (num in numbers) {
+    sum += num
+}</code></pre> 
+  <p> </p> 
+  <p>b)</p> 
+  <pre><code class="language-kotlin">var sum = 0
+for (i in numbers.indexes) {
+    sum += i
+}</code></pre> 
+  <p> </p> 
+  <p>c)</p> 
+  <pre><code class="language-kotlin">var sum = 0
+
+for (i in 1 until numbers.size) {
+    sum += numbers[i]
+}</code></pre> 
+  <p> </p> 
+  <p>d)</p> 
+  <pre><code class="language-kotlin">var sum = 0
+for (i in numbers.lastIndex downTo 0) {
+    sum += numbers[i] 
+}</code></pre>
+ </body>
+</html>

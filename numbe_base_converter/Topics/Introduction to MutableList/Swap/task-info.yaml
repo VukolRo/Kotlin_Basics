@@ -1,0 +1,15 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: "fun main() {    \n    val numbers = readLine()!!.split(' ').map { it.toInt()\
+    \ }.toMutableList()\n    // Do not touch lines above\n    // Write only exchange\
+    \ actions here.\n\n    // Do not touch lines below\n    println(numbers.joinToString(separator\
+    \ = \" \"))\n}"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14881#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 14 May 2022 13:35:16 UTC
+record: -1

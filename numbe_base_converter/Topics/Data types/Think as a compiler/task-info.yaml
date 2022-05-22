@@ -1,0 +1,17 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    fun main() {
+
+        // put your code above
+        println("My name is $first $last and I’m $age years old")
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/16076#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 07 May 2022 06:53:40 UTC
+record: -1

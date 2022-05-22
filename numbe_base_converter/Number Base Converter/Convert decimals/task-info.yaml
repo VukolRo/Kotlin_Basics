@@ -1,0 +1,259 @@
+type: edu
+files:
+- name: src/converter/Main.kt
+  visible: true
+  text: |-
+    package converter
+
+    fun main() {
+        println("Hello, world!")
+    }
+  learner_created: false
+- name: test/NumeralSystemConverterTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+    import org.hyperskill.hstest.testing.TestedProgram;
+
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.Random;
+
+    public class NumeralSystemConverterTest extends StageTest<String> {
+
+        @Override
+        public List<TestCase<String>> generate() {
+
+            return Arrays.asList(new TestCase<String>().setDynamicTesting(this::test1),
+                new TestCase<String>().setDynamicTesting(this::test2),
+                new TestCase<String>().setDynamicTesting(this::test3),
+                new TestCase<String>().setDynamicTesting(this::test4),
+                new TestCase<String>().setDynamicTesting(this::test5)
+            );
+        }
+
+        //test unexpected program termination
+        CheckResult test1() {
+            TestedProgram main = new TestedProgram();
+            String output = main.start().toLowerCase();
+            String userResult;
+            String actualResult;
+            int randomDecimal;
+
+            if (!output.contains("decimal")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the decimal number to be " +
+                        "converted with the message \"Enter number in decimal system\"" +
+                        ".");
+            }
+
+            randomDecimal = getRandomDecimal();
+            actualResult = convertDecimalToBaseX(randomDecimal, 16);
+
+            output = main.execute(String.valueOf(randomDecimal)).toLowerCase();
+            if (!output.contains("target base")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the target base " +
+                        "with the message \"Enter target base\".");
+            }
+
+            output = main.execute("16").toLowerCase();
+            if (!output.contains("result:")) {
+                return CheckResult
+                    .wrong("Your program should print the result in the format " +
+                        "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                        "the converted number.");
+            }
+
+            userResult = output.substring(output.indexOf(":") + 1).trim();
+            if (!userResult.equals(actualResult)) {
+                return CheckResult.wrong("The conversion result of your program is wrong");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test conversion to base 16
+        CheckResult test2() {
+
+            TestedProgram main = new TestedProgram();
+            String output = main.start().toLowerCase();
+            String userResult;
+            String actualResult;
+            int randomDecimal;
+
+            if (!output.contains("decimal")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the decimal number to be " +
+                        "converted with the message \"Enter number in decimal system\"" +
+                        ".");
+            }
+
+            randomDecimal = getRandomDecimal();
+            actualResult = convertDecimalToBaseX(randomDecimal, 16);
+
+            output = main.execute(String.valueOf(randomDecimal)).toLowerCase();
+            if (!output.contains("target base")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the target base " +
+                        "with the message \"Enter target base\".");
+            }
+
+            output = main.execute("16").toLowerCase();
+            if (!output.contains("result")) {
+                return CheckResult
+                    .wrong("Your program should print the result in the format " +
+                        "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                        "the converted number.");
+            }
+
+            userResult = output.substring(output.indexOf(":") + 1).trim();
+            if (!userResult.equals(actualResult)) {
+                return CheckResult.wrong("The conversion result of your program is wrong");
+            }
+
+            return CheckResult.correct();
+        }
+
+        CheckResult test3() {
+
+            TestedProgram main = new TestedProgram();
+            String output = main.start().toLowerCase();
+            String userResult;
+            String actualResult;
+            int randomDecimal;
+
+            if (!output.contains("decimal")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the decimal number to be " +
+                        "converted with the message \"Enter number in decimal system\"" +
+                        ".");
+            }
+
+            randomDecimal = getRandomDecimal();
+            actualResult = convertDecimalToBaseX(randomDecimal, 16);
+
+            output = main.execute(String.valueOf(randomDecimal)).toLowerCase();
+            if (!output.contains("target base")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the target base " +
+                        "with the message \"Enter target base\".");
+            }
+
+            output = main.execute("16").toLowerCase();
+            if (!output.contains("result")) {
+                return CheckResult
+                    .wrong("Your program should print the result in the format " +
+                        "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                        "the converted number.");
+            }
+
+            userResult = output.substring(output.indexOf(":") + 1).trim();
+            if (!userResult.equals(actualResult)) {
+                return CheckResult.wrong("The conversion result of your program is wrong");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test conversion to base 2
+        CheckResult test4() {
+
+            TestedProgram main = new TestedProgram();
+            String output = main.start().toLowerCase();
+            String userResult;
+            String actualResult;
+            int randomDecimal;
+
+            if (!output.contains("decimal")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the decimal number to be " +
+                        "converted with the message \"Enter number in decimal system\"" +
+                        ".");
+            }
+
+            randomDecimal = getRandomDecimal();
+            actualResult = convertDecimalToBaseX(randomDecimal, 2);
+
+            output = main.execute(String.valueOf(randomDecimal)).toLowerCase();
+            if (!output.contains("target base")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the target base " +
+                        "with the message \"Enter target base\".");
+            }
+
+            output = main.execute("2").toLowerCase();
+            if (!output.contains("result")) {
+                return CheckResult
+                    .wrong("Your program should print the result in the format " +
+                        "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                        "the converted number.");
+            }
+
+            userResult = output.substring(output.indexOf(":") + 1).trim();
+            if (!userResult.equals(actualResult)) {
+                return CheckResult.wrong("The conversion result of your program is wrong");
+            }
+
+            return CheckResult.correct();
+        }
+
+        //Test conversion to base 8
+        CheckResult test5() {
+
+            TestedProgram main = new TestedProgram();
+            String output = main.start().toLowerCase();
+            String userResult;
+            String actualResult;
+            int randomDecimal;
+
+            if (!output.contains("decimal")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the decimal number to be " +
+                        "converted with the message \"Enter number in decimal system\"" +
+                        ".");
+            }
+
+            randomDecimal = getRandomDecimal();
+            actualResult = convertDecimalToBaseX(randomDecimal, 8);
+
+            output = main.execute(String.valueOf(randomDecimal)).toLowerCase();
+            if (!output.contains("target base")) {
+                return CheckResult
+                    .wrong("Your program should prompt the user for the target base " +
+                        "with the message \"Enter target base\".");
+            }
+
+            output = main.execute("8").toLowerCase();
+            if (!output.contains("result:")) {
+                return CheckResult
+                    .wrong("Your program should print the result in the format " +
+                        "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                        "the converted number.");
+            }
+
+            userResult = output.substring(output.indexOf(":") + 1).trim();
+            if (!userResult.equals(actualResult)) {
+                return CheckResult.wrong("The conversion result of your program is wrong");
+            }
+
+            return CheckResult.correct();
+        }
+
+
+        //Helper methods
+        String convertDecimalToBaseX(int num, int targetBase) {
+            return Integer.toString(num, targetBase);
+        }
+
+        int getRandomDecimal() {
+            return new Random().nextInt(1000);
+        }
+
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12345#comment
+status: Solved
+record: 1

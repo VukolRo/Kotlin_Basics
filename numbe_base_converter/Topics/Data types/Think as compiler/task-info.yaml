@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: error on line 3
+- text: -1 Kotlin
+- text: 0 Kotlin
+- text: error on line 1
+- text: undefined Kotlin
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/16075#comment
+status: Solved
+record: -1

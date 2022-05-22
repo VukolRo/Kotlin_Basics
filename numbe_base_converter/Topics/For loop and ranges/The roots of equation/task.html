@@ -1,0 +1,13 @@
+<h2>The roots of equation</h2>
+<html>
+ <head></head>
+ <body>
+  <p>There are numbers <span class="math-tex">\(a, b, c, d\)</span>. Output in ascending order all the integers between <span class="math-tex">\(0\)</span> and <span class="math-tex">\(1000\)</span> (inclusively), which are the roots of the equation <span class="math-tex">\(a \cdot x^3 + b \cdot x^2 + c \cdot x + d = 0\)</span>.</p> 
+  <p>If a specified interval does not contain any roots of the equation, do not output anything.</p> 
+  <p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-437').style.display='inline'"> Hint </button> </p>
+  <div id="hint-437" style="display:none;">
+   You can just iterate over x from 0 to 1000 and check the value of the expression.
+  </div>
+  <p></p>
+ </body>
+</html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">-1<br>1<br>-1<br>1</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">1</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">0<br>1<br>-6<br>5</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">1<br>5</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">1<br>1<br>1<br>1</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight"></code></pre><br><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 5 seconds</font><br><br>

@@ -1,0 +1,441 @@
+type: edu
+files:
+- name: src/converter/Main.kt
+  visible: true
+  text: |-
+    package converter
+
+    fun main() {
+        println("Hello, world!")
+    }
+  learner_created: false
+- name: test/NumeralSystemConverterTest.java
+  visible: false
+  text: |-
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+    import org.hyperskill.hstest.testing.TestedProgram;
+
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.Random;
+
+    public class NumeralSystemConverterTest extends StageTest<String> {
+
+      @Override
+      public List<TestCase<String>> generate() {
+
+        return Arrays.asList(
+                new TestCase<String>().setDynamicTesting(this::test1),
+                new TestCase<String>().setDynamicTesting(this::test2),
+                new TestCase<String>().setDynamicTesting(this::test3),
+                new TestCase<String>().setDynamicTesting(this::test4),
+                new TestCase<String>().setDynamicTesting(this::test5),
+                new TestCase<String>().setDynamicTesting(this::test6),
+                new TestCase<String>().setDynamicTesting(this::test7)
+        );
+      }
+
+      //Check the exit command
+      CheckResult test1() {
+          TestedProgram main = new TestedProgram();
+          String output = main.start().toLowerCase();
+
+          if (!output.contains("/from decimal") || !output.contains("/to decimal") || !output.contains(
+                  "/exit")) {
+              return CheckResult.wrong("Your program should prompt the user with the message \"Do you " +
+                                             "want to convert /from decimal of /to decimal? (To quit " +
+                                             "type /exit)\"");
+          }
+
+          main.execute("/exit");
+          if (!main.isFinished()) {
+              return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+          }
+
+          return CheckResult.correct();
+      }
+
+      //Check conversion from decimal
+      //to base 2
+      CheckResult test2() {
+
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String[] lines;
+        int randomNumber;
+
+        main.start();
+
+        output = main.execute("/from").toLowerCase();
+        if (!output.contains("decimal")) {
+            return CheckResult.wrong("Your program should ask the user for the decimal number to be " +
+                                             "converted if they enter the command \"/from\"");
+        }
+
+        randomNumber = Integer.parseInt(getRandomSource(10));
+        actualResult = convertDecimalToBaseX(randomNumber, 2);
+
+        output = main.execute(String.valueOf(randomNumber)).toLowerCase();
+        if (!output.contains("target base")) {
+          return CheckResult
+                  .wrong("Your program should ask the user for the target base " +
+                                 "after they enter the decimal number .");
+        }
+
+        output = main.execute("2").toLowerCase();
+        if (!output.contains("result:")) {
+          return CheckResult
+                  .wrong("Your program should print the result in the format " +
+                                 "\"Conversion result: CONVERTED_NUMBER\", where CONVERTED_NUMBER is " +
+                                 "the result of the conversion.");
+        }
+
+        lines = output.split("\n");
+        lastLine = lines[lines.length -1];
+
+        if (!lines[0].contains(":")) {
+          return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+              "It should contain ':' symbol!\n" +
+              "Your line\n:" + lines[0]);
+        }
+
+        userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+        if (!userResult.equalsIgnoreCase(actualResult)) {
+          return CheckResult.wrong("The conversion result of your program is wrong");
+        }
+
+        if (main.isFinished()) {
+          return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+        }
+
+        if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                "/exit")) {
+          return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                           " until the user enters \"/exit\"");
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+      //to base 16
+      CheckResult test3() {
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String[] lines;
+        int randomNumber;
+
+        main.start();
+
+        for (int i = 0; i < 5; i++) {
+          randomNumber = Integer.parseInt(getRandomSource(10));
+          actualResult = convertDecimalToBaseX(randomNumber, 16);
+          main.execute("/from");
+          main.execute(String.valueOf(randomNumber));
+
+          output = main.execute("16").toLowerCase();
+          lines = output.split("\n");
+
+          if (!lines[0].contains(":")) {
+            return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+                "It should contain ':' symbol!\n" +
+                "Your line\n:" + lines[0]);
+          }
+
+          userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+          if (!userResult.equalsIgnoreCase(actualResult)) {
+            return CheckResult.wrong("The conversion result of your program is wrong");
+          }
+
+          if (main.isFinished()) {
+            return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+          }
+
+          lastLine = lines[lines.length -1];
+          if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                  "/exit")) {
+            return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                             " until the user enters \"/exit\"");
+          }
+
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+      //to base 8
+      CheckResult test4() {
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String[] lines;
+        int randomNumber;
+
+        main.start();
+
+        for (int i = 0; i < 5; i++) {
+          randomNumber = Integer.parseInt(getRandomSource(10));
+          actualResult = convertDecimalToBaseX(randomNumber, 8);
+          main.execute("/from");
+          main.execute(String.valueOf(randomNumber));
+
+          output = main.execute("8").toLowerCase();
+          lines = output.split("\n");
+
+          if (!lines[0].contains(":")) {
+            return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+                "It should contain ':' symbol!\n" +
+                "Your line\n:" + lines[0]);
+          }
+
+          userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+          if (!userResult.equalsIgnoreCase(actualResult)) {
+            return CheckResult.wrong("The conversion result of your program is wrong");
+          }
+
+          if (main.isFinished()) {
+            return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+          }
+
+          lastLine = lines[lines.length -1];
+          if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                  "/exit")) {
+            return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                             " until the user enters \"/exit\"");
+          }
+
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+      //Check conversion to decimal
+      //from base 2
+      CheckResult test5() {
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String randomSourceNumber;
+        String[] lines;
+
+        main.start();
+
+        output = main.execute("/to").toLowerCase();
+        if (!output.contains("source number")) {
+          return CheckResult.wrong("Your program should ask the user for the source number to be " +
+                                           "converted if they enter the command \"/to\", with the " +
+                                           "message \"Enter source number:\"");
+        }
+
+        randomSourceNumber = getRandomSource(2).toLowerCase();
+        actualResult = convertBaseXToDecimal(randomSourceNumber, 2);
+
+        output = main.execute(randomSourceNumber).toLowerCase();
+        if (!output.contains("source base")) {
+          return CheckResult.wrong("Your program should request for the source base after getting the" +
+                                           " source number from the user with the message \"Enter " +
+                                           "source base:\"");
+        }
+
+        output = main.execute("2").toLowerCase();
+        if (!output.contains("decimal result:")) {
+          return CheckResult.wrong("Your program should print the conversion result in the format " +
+                                           "\"Conversion to decimal result: CONVERTED_NUMBER\", where" +
+                                           " CONVERTED_NUMBER is the result of the conversion");
+        }
+
+        lines = output.split("\n");
+        lastLine = lines[lines.length -1];
+
+        if (!lines[0].contains(":")) {
+          return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+              "It should contain ':' symbol!\n" +
+              "Your line\n:" + lines[0]);
+        }
+
+        userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+        if (!userResult.equalsIgnoreCase(actualResult)) {
+          return CheckResult.wrong("The conversion result of your program is wrong");
+        }
+
+        if (main.isFinished()) {
+          return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+        }
+
+        if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                "/exit")) {
+          return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                           " until the user enters \"/exit\"");
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+      //from base 8
+      CheckResult test6() {
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String randomSourceNumber;
+        String[] lines;
+
+        main.start();
+
+        for (int i = 0; i < 5; i++) {
+          main.execute("/to");
+
+          randomSourceNumber = getRandomSource(8);
+          actualResult = convertBaseXToDecimal(randomSourceNumber, 8);
+
+          main.execute(randomSourceNumber);
+          output = main.execute("8").toLowerCase();
+
+          lines = output.split("\n");
+          lastLine = lines[lines.length -1];
+
+          if (!lines[0].contains(":")) {
+            return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+                "It should contain ':' symbol!\n" +
+                "Your line\n:" + lines[0]);
+          }
+
+          userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+          if (!userResult.equalsIgnoreCase(actualResult)) {
+            return CheckResult.wrong("The conversion result of your program is wrong");
+          }
+
+          if (main.isFinished()) {
+            return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+          }
+
+          if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                  "/exit")) {
+            return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                             " until the user enters \"/exit\"");
+          }
+
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+      //from base 16
+      CheckResult test7() {
+        TestedProgram main = new TestedProgram();
+        String output;
+        String lastLine;
+        String userResult;
+        String actualResult;
+        String randomSourceNumber;
+        String[] lines;
+
+        main.start();
+
+        for (int i = 0; i < 5; i++) {
+          main.execute("/to");
+
+          randomSourceNumber = getRandomSource(16);
+          actualResult = convertBaseXToDecimal(randomSourceNumber, 16);
+
+          main.execute(randomSourceNumber);
+          output = main.execute("16").toLowerCase();
+
+          lines = output.split("\n");
+          lastLine = lines[lines.length -1];
+
+          if (!lines[0].contains(":")) {
+            return CheckResult.wrong("After entering the target base the next line doesn't contain a conversion result!\n" +
+                "It should contain ':' symbol!\n" +
+                "Your line\n:" + lines[0]);
+          }
+
+          userResult = lines[0].substring(output.indexOf(":") + 1).trim();
+          if (!userResult.equalsIgnoreCase(actualResult)) {
+            return CheckResult.wrong("The conversion result of your program is wrong");
+          }
+
+          if (main.isFinished()) {
+            return CheckResult.wrong("Your program should not terminate until the user enters \"/exit\"");
+          }
+
+          if (!lastLine.contains("/from") || !lastLine.contains("/to decimal") || !lastLine.contains(
+                  "/exit")) {
+            return CheckResult.wrong("Your program should show the command prompt after each conversion" +
+                                             " until the user enters \"/exit\"");
+          }
+
+        }
+
+        main.execute("/exit");
+        if (!main.isFinished()) {
+          return CheckResult.wrong("Your program should terminate when the user enters \"/exit\"");
+        }
+
+        return CheckResult.correct();
+      }
+
+
+
+
+      //Helper methods
+      String convertDecimalToBaseX(int num, int targetBase) {
+        return Integer.toString(num, targetBase);
+      }
+
+      String convertBaseXToDecimal(String number, int sourceBase) {
+        return String.valueOf(Integer.parseInt(number, sourceBase));
+      }
+
+      String getRandomSource(int sourceBase) {
+
+        int n = new Random().nextInt(1000);
+
+        return Integer.toString(n, sourceBase);
+
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12346#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 18 May 2022 10:18:42 UTC
+record: 2

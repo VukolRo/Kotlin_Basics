@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: Float - 8 bytes, Double - 16 bytes
+- text: Float - 2 bytes, Double - 8 bytes
+- text: Float - 4 bytes, Double - 8 bytes
+- text: Float - 8 bytes, Double - 4 bytes
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4465#comment
+status: Solved
+record: -1
+custom_name: Sizes of Float and Double

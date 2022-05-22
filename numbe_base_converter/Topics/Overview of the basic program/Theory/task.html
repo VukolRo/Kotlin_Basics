@@ -1,0 +1,63 @@
+<h2>Overview of the basic program</h2>
+<html>
+ <head></head>
+ <body>
+  <p>In this lesson, you will write your first Kotlin program, which prints <strong>"Hello, World!"</strong> This is the first step that every beginner is to take. Although the program itself is very simple, it is still a working program, and it shows the basic syntax of the programming language.</p> 
+  <h5 id="hello-world" style="text-align: center;">Hello, World</h5> 
+  <p>Here it comes. Below is the source code of this program:</p> 
+  <kotlin-runnable indent="4" theme="idea"> 
+   <pre><code class="language-kotlin">fun main() {
+    println("Hello, World!")
+}</code></pre> 
+  </kotlin-runnable> 
+  <p>To start the program, click the triangle on the right. It outputs <code class="language-kotlin">"Hello, World"</code>.</p> 
+  <p>If you have already installed a programming environment on your computer, you may run the program there. If not, do not worry. We will get back to this.</p> 
+  <h5 id="basic-terminology" style="text-align: center;">Basic terminology</h5> 
+  <p>After you have seen the result, let's learn the basic terminology and then try to understand our program.</p> 
+  <ul> 
+   <li>A<strong> program </strong>is<strong> </strong>a sequence of instructions (called statements), which are executed one after another in a predictable manner. Sequential flow is the most common and straightforward situation when statements are executed in the order they are written, i.e., from top to bottom, one after another;</li> 
+   <li>A <strong>statement </strong>(or a <strong>programming statement</strong>) is a single command to be executed (like printing a text);</li> 
+   <li>An <strong>expression </strong>is a piece of code that produces a single value (for example, 2*2 is an expression);</li> 
+   <li>A <strong>block </strong>is a group of zero or more statements enclosed in a pair of curly braces <code class="language-kotlin">{...}</code>; our program consists of a single block;</li> 
+   <li>A <strong>keyword</strong> is a word that has a special meaning in the programming language. Names of keywords can't be changed;</li> 
+   <li>An <strong>i</strong><strong>dentifier</strong> (or a <strong>name</strong>) is a word written by the programmer to identify something;</li> 
+   <li>A <strong>comment</strong> is a piece of text that is ignored when executing the program – it just explains a part of the code. Comments start with <code class="language-kotlin">//</code>;</li> 
+   <li><strong>Whitespace</strong> is a blank area, a tab, or a newline; it is used to separate words in the program and to improve readability.</li> 
+  </ul> 
+  <h5 id="the-hello-world-program-under-a-microscope" style="text-align: center;">The Hello World program under a microscope</h5> 
+  <p>The <strong>Hello World</strong> program illustrates the use of the basic elements of any Kotlin program. Right now, we will consider only the most important ones.</p> 
+  <p><strong>The entry point.</strong> The keyword <code class="language-kotlin">fun</code> defines a function that contains a piece of code to execute. This function has a special name <code class="language-kotlin">main</code>. It indicates the entry point of a Kotlin program. The function has a body enclosed in braces <code class="language-kotlin">{...}</code>.</p> 
+  <pre><code class="language-kotlin">fun main() { 
+    // ...
+}</code></pre> 
+  <p>We will discuss the functions later. The name of this function should always be the same: <code class="language-kotlin">main</code>. If you name it <code class="language-kotlin">Main</code> or <code class="language-kotlin">MAIN</code> or something else, the program will not start.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   <strong>Note: </strong>The text after 
+   <code class="language-kotlin">//</code> is just a comment, not a part of the program. Further, we will learn how to write comments.
+  </div>
+  <p></p> 
+  <p><strong>Printing "Hello, World!".</strong> The body of this function consists of programming statements that define what the program is to do. Our program prints the string <strong>"Hello, World!"</strong> using the following statement:</p> 
+  <pre><code class="language-java">println("Hello, World!")</code></pre> 
+  <p>This is one of the most important things to understand about the <strong>Hello World</strong> program. We invoke the special function <code class="language-kotlin">println</code> to display a string followed by a new line on the screen. We will often use this way to print something.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   <strong>Remember</strong> that 
+   <code class="language-kotlin">"Hello, World!"</code> is not a keyword or a name, it is just a string literal to be printed on the screen.
+  </div>
+  <p></p> 
+  <h5 id="programs-with-multiple-statements" style="text-align: center;">Programs with multiple statements</h5> 
+  <p>As a rule, a program contains multiple statements. You should start a new line to write each statement. For example, the program below has two statements:</p> 
+  <kotlin-runnable indent="4" theme="idea"> 
+   <pre><code class="language-kotlin">fun main() {
+    println("Hello")
+    println("World")
+}</code></pre> 
+  </kotlin-runnable> 
+  <p>If you run the program (clicking the green triangle), you will see that it displays this:</p> 
+  <pre><code class="language-kotlin">Hello
+World</code></pre> 
+  <h5 id="conclusion" style="text-align: center;">Conclusion</h5> 
+  <p>Congratulations! We have written our first program, which prints <strong>"Hello, World!"</strong> It has one function named <code class="language-kotlin">main</code>, which represents the entry point of this program. Don't worry about all those terms (<strong>syntax</strong>, <strong>statement</strong>, <strong>block</strong>) for now – we will explain them throughout this course. Don’t forget to use your first code as a template for your future programs.</p>
+ </body>
+</html>

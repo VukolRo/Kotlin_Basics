@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: val n = 100
+- text: Int n = 100
+- text: 'val n: Int = 100'
+- text: val Int n = 100
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4398#comment
+status: Solved
+record: -1

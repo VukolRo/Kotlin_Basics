@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Every variable has a type.
+- text: The type determines the name of a variable.
+- text: The type restricts possible values of a variable.
+- text: The type of a variable declared with the <b>var</b> keyword can be changed.
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4403#comment
+status: Solved
+record: -1

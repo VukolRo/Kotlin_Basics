@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":Topics-If_expression-The_max_of_two_numbers_without_else-branch" external.linked.project.path="$MODULE_DIR$/../../../../../Topics/If expression/The max of two numbers without else-branch" external.root.project.path="$MODULE_DIR$/../../../../.." external.system.id="GRADLE" external.system.module.group="Number Base Converter" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../../Topics/If expression/The max of two numbers without else-branch">
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/If expression/The max of two numbers without else-branch/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/If expression/The max of two numbers without else-branch/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/If expression/The max of two numbers without else-branch/out" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

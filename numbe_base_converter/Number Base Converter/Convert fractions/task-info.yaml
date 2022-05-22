@@ -1,0 +1,572 @@
+type: edu
+files:
+- name: src/converter/Main.kt
+  visible: true
+  text: |-
+    package converter
+
+    fun main() {
+        println("Hello, world!")
+    }
+  learner_created: false
+- name: test/NumeralSystemConverterTest.java
+  visible: false
+  text: "import org.hyperskill.hstest.exception.outcomes.WrongAnswer;\nimport org.hyperskill.hstest.stage.StageTest;\n\
+    import org.hyperskill.hstest.testcase.CheckResult;\nimport org.hyperskill.hstest.testcase.TestCase;\n\
+    import org.hyperskill.hstest.testing.TestedProgram;\n\nimport java.math.BigDecimal;\n\
+    import java.math.BigInteger;\nimport java.math.RoundingMode;\nimport java.util.Arrays;\n\
+    import java.util.List;\nimport java.util.Random;\n\npublic class NumeralSystemConverterTest\
+    \ extends StageTest<String> {\n    \n    @Override\n    public List<TestCase<String>>\
+    \ generate () {\n        \n        return Arrays.asList(\n                new\
+    \ TestCase<String>().setDynamicTesting(this::test1),\n                new TestCase<String>().setDynamicTesting(this::test2),\n\
+    \                new TestCase<String>().setDynamicTesting(this::test3),\n    \
+    \            new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test4),\n\
+    \                new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test5),\n\
+    \                new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test6),\n\
+    \                new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test7),\n\
+    \                new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test8),\n\
+    \                new TestCase<String>().setTimeLimit(60000).setDynamicTesting(this::test9)\n\
+    \        );\n    }\n\n    String getConversionResult(String[] lines) {\n     \
+    \   for (String line : lines) {\n            if (line.contains(\":\")) {\n   \
+    \             return line.substring(line.indexOf(\":\") + 1).trim();\n       \
+    \     }\n        }\n\n        throw new WrongAnswer(\n            \"Cannot find\
+    \ a \\\"Conversion result:\\\" part in the output.\");\n    }\n    \n    //test\
+    \ exit command\n    CheckResult test1 () {\n        \n        TestedProgram main\
+    \ = new TestedProgram();\n        String output = main.start().toLowerCase();\n\
+    \        \n        if (!output.contains(\"source base\") || !output.contains(\"\
+    target base\") || !output\n                .contains(\"/exit\")) {\n         \
+    \   return CheckResult\n                    .wrong(\"Your program should output\
+    \ the message \\\"Enter two numbers in format:\" +\n                         \
+    \          \" {source base} {target base} (To quit type /exit)\\\" when it starts\"\
+    );\n        }\n        \n        main.execute(\"/exit\");\n        if (!main.isFinished())\
+    \ {\n            return CheckResult.wrong(\"Your program should terminate when\
+    \ the user enters \" +\n                                             \"\\\"/exit\\\
+    \"\");\n        }\n        \n        return CheckResult.correct();\n    }\n  \
+    \  \n    //test output format\n    CheckResult test2 () {\n        \n        TestedProgram\
+    \ main = new TestedProgram();\n        String output;\n        String randomDecimal;\n\
+    \        String actualResult;\n        String userResult;\n        String lastLine;\n\
+    \        String[] lines;\n        \n        main.start();\n        output = main.execute(\"\
+    10 2\").toLowerCase();\n        if (!output.contains(\"base 10\") || !output.contains(\"\
+    convert to base 2\")) {\n            return CheckResult.wrong(\"Your program should\
+    \ prompt the user for the number to be \" +\n                                \
+    \             \"converted with the message \\\"Enter number in base \" +\n   \
+    \                                          \"{user source base} to convert to\
+    \ base {user target base}\" +\n                                             \"\
+    \ (To go back type /back)\\\" after accepting the \" +\n                     \
+    \                        \"source and target base\");\n        }\n        \n \
+    \       if (!output.contains(\"/back\")) {\n            return CheckResult.wrong(\"\
+    Your program should provide the user with an option to go \" +\n             \
+    \                                \"back to the top-level menu with the message\
+    \ \\\"Enter number in base \" +\n                                            \
+    \ \"{user source base} to convert to base {user target base} \" +\n          \
+    \                                   \"(To go back type /back)\\\"\");\n      \
+    \  }\n        \n        randomDecimal = Generator.getRandomSourceNumber(10, false);\n\
+    \        actualResult = Converter.decimalToBaseX(randomDecimal, 2);\n        \n\
+    \        output = main.execute(randomDecimal).toLowerCase();\n        lines =\
+    \ output.split(\"\\n\");\n        lastLine = lines[lines.length - 1];\n      \
+    \  \n        if (!lines[0].contains(\"result:\")) {\n            return CheckResult.wrong(\"\
+    Your program should print the conversion result in the \" +\n                \
+    \                             \"format \\\"Conversion result: CONVERTED_NUMBER\\\
+    \"\");\n        }\n        \n        userResult = getConversionResult(lines);\n\
+    \n        if (!userResult.equals(actualResult)) {\n            return CheckResult.wrong(\"\
+    The conversion result of your program is wrong\");\n        }\n        \n    \
+    \    if (main.isFinished()) {\n            return CheckResult.wrong(\"Your program\
+    \ should not terminate until the user enter \" +\n                           \
+    \                  \"\\\"/exit\\\" in the top-level menu\");\n        }\n    \
+    \    \n        if (lastLine.contains(\"/exit\")) {\n            return CheckResult.wrong(\"\
+    Your program should remember the user's source and target \" +\n             \
+    \                                \"base and should not return to the top-level\
+    \ menu \" +\n                                             \"until the user enters\
+    \ \\\"/back\\\"\");\n        }\n        \n        if (!lastLine.contains(\"base\
+    \ 10\") || !lastLine.contains(\"convert to base 2\")) {\n            return CheckResult.wrong(\"\
+    After each conversion, your program should prompt the user\" +\n             \
+    \                                \" for a number to be \" +\n                \
+    \                             \"converted with the message \\\"Enter number in\
+    \ base \" +\n                                             \"{user source base}\
+    \ to convert to base {user target base}\" +\n                                \
+    \             \" (To go back type /back)\\\" until the user enters \" +\n    \
+    \                                         \"\\\"/back\\\"\");\n        }\n   \
+    \     \n        \n        return CheckResult.correct();\n    }\n    \n    //test\
+    \ back command\n    CheckResult test3 () {\n        \n        TestedProgram main\
+    \ = new TestedProgram();\n        String output;\n        String lastLine;\n \
+    \       String[] lines;\n        \n        \n        main.start();\n        main.execute(\"\
+    10 2\");\n        main.execute(Generator.getRandomSourceNumber(10, false));\n\
+    \        \n        output = main.execute(\"/back\").toLowerCase();\n        if\
+    \ (!output.contains(\"/exit\")) {\n            return CheckResult.wrong(\"Your\
+    \ program should take the user back to the top-level \" +\n                  \
+    \                           \"menu when they enter \\\"/back\\\"\");\n       \
+    \ }\n        \n        main.execute(\"10 8\");\n        output = main.execute(Generator.getRandomSourceNumber(10,\
+    \ false)).toLowerCase();\n        \n        lines = output.split(\"\\n\");\n \
+    \       lastLine = lines[lines.length - 1];\n        if (!lastLine.contains(\"\
+    base 10\") || !lastLine.contains(\"convert to base 8\")) {\n            return\
+    \ CheckResult.wrong(\"After each conversion, your program should prompt the user\"\
+    \ +\n                                             \" for a number to be \" +\n\
+    \                                             \"converted with the message \\\"\
+    Enter number in base \" +\n                                             \"{user\
+    \ source base} to convert to base {user target base}\" +\n                   \
+    \                          \" (To go back type /back)\\\" until the user enters\
+    \ \" +\n                                             \"\\\"/back\\\"\");\n   \
+    \     }\n        \n        main.execute(\"/back\");\n        main.execute(\"/exit\"\
+    );\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n    //using BigInteger\n    CheckResult\
+    \ test4 () {\n        \n        TestedProgram main = new TestedProgram();\n  \
+    \      String output;\n        String lastLine;\n        String userResult;\n\
+    \        String actualResult;\n        String randomBigInteger;\n        String[]\
+    \ lines;\n        \n        main.start();\n        \n        for (int sourceBase\
+    \ = 2; sourceBase <= 18; sourceBase += 3) {\n            \n            for (int\
+    \ targetBase = 2; targetBase <= 36; targetBase += 3) {\n                \n   \
+    \             output = main.execute(sourceBase + \" \" + targetBase).toLowerCase();\n\
+    \                if (!output.contains(\"base \" + sourceBase) || !output\n   \
+    \                     .contains(\"convert to base \" + targetBase)) {\n      \
+    \              return CheckResult\n                            .wrong(\"Your program\
+    \ should prompt the user for the number to be \" +\n                         \
+    \                  \"converted with the message \\\"Enter number in base \" +\n\
+    \                                           \"{user source base} to convert to\
+    \ base {user target base}\" +\n                                           \" (To\
+    \ go back type /back)\\\" after accepting the \" +\n                         \
+    \                  \"source and target base\");\n                }\n         \
+    \       \n                if (!output.contains(\"/back\")) {\n               \
+    \     return CheckResult\n                            .wrong(\"Your program should\
+    \ provide the user with an option to go \" +\n                               \
+    \            \"back to the top-level menu with the message \\\"Enter number in\
+    \ base \" +\n                                           \"{user source base} to\
+    \ convert to base {user target base} \" +\n                                  \
+    \         \"(To go back type /back)\\\"\");\n                }\n             \
+    \   \n                randomBigInteger = Generator.getRandomBigInteger(sourceBase,\
+    \ false);\n                actualResult = Converter\n                        .convertSourceToTargetBase(randomBigInteger,\
+    \ sourceBase, targetBase\n                                , false);\n        \
+    \        \n                output = main.execute(randomBigInteger).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n                \n               \
+    \ userResult = getConversionResult(lines);\n\n                if (!userResult.equalsIgnoreCase(actualResult))\
+    \ {\n                    return CheckResult.wrong(\"The conversion result of your\
+    \ program is wrong\");\n                }\n                \n                if\
+    \ (main.isFinished()) {\n                    return CheckResult\n            \
+    \                .wrong(\"Your program should not terminate until the user enter\
+    \ \" +\n                                           \"\\\"/exit\\\" in the top-level\
+    \ menu\");\n                }\n                \n                if (lastLine.contains(\"\
+    /exit\")) {\n                    return CheckResult\n                        \
+    \    .wrong(\"Your program should remember the user's source and target \" +\n\
+    \                                           \"base and should not return to the\
+    \ top-level menu \" +\n                                           \"until the\
+    \ user enters \\\"/back\\\"\");\n                }\n                \n       \
+    \         main.execute(\"/back\");\n            }\n            \n        }\n \
+    \       \n        main.execute(\"/exit\");\n        if (!main.isFinished()) {\n\
+    \            return CheckResult.wrong(\"Your program should terminate when the\
+    \ user enters \" +\n                                             \"\\\"/exit\\\
+    \"\");\n        }\n        \n        return CheckResult.correct();\n    }\n  \
+    \  \n    CheckResult test5 () {\n        \n        TestedProgram main = new TestedProgram();\n\
+    \        String output;\n        String lastLine;\n        String userResult;\n\
+    \        String actualResult;\n        String randomBigInteger;\n        String[]\
+    \ lines;\n        \n        main.start();\n        \n        for (int sourceBase\
+    \ = 19; sourceBase <= 36; sourceBase += 3) {\n            \n            for (int\
+    \ targetBase = 2; targetBase <= 36; targetBase += 3) {\n                \n   \
+    \             if (sourceBase == targetBase) {\n                    continue;\n\
+    \                }\n                \n                output = main.execute(sourceBase\
+    \ + \" \" + targetBase).toLowerCase();\n                if (!output.contains(\"\
+    base \" + sourceBase) || !output\n                        .contains(\"convert\
+    \ to base \" + targetBase)) {\n                    return CheckResult\n      \
+    \                      .wrong(\"Your program should prompt the user for the number\
+    \ to be \" +\n                                           \"converted with the\
+    \ message \\\"Enter number in base \" +\n                                    \
+    \       \"{user source base} to convert to base {user target base}\" +\n     \
+    \                                      \" (To go back type /back)\\\" after accepting\
+    \ the \" +\n                                           \"source and target base\"\
+    );\n                }\n                \n                if (!output.contains(\"\
+    /back\")) {\n                    return CheckResult\n                        \
+    \    .wrong(\"Your program should provide the user with an option to go \" +\n\
+    \                                           \"back to the top-level menu with\
+    \ the message \\\"Enter number in base \" +\n                                \
+    \           \"{user source base} to convert to base {user target base} \" +\n\
+    \                                           \"(To go back type /back)\\\"\");\n\
+    \                }\n                \n                randomBigInteger = Generator.getRandomBigInteger(sourceBase,\
+    \ false);\n                actualResult = Converter\n                        .convertSourceToTargetBase(randomBigInteger,\
+    \ sourceBase, targetBase\n                                , false);\n        \
+    \        \n                output = main.execute(randomBigInteger).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n\n                userResult = getConversionResult(lines);\n\
+    \n                if (!userResult.equalsIgnoreCase(actualResult)) {\n        \
+    \            return CheckResult.wrong(\"The conversion result of your program\
+    \ is wrong\");\n                }\n                \n                if (main.isFinished())\
+    \ {\n                    return CheckResult\n                            .wrong(\"\
+    Your program should not terminate until the user enter \" +\n                \
+    \                           \"\\\"/exit\\\" in the top-level menu\");\n      \
+    \          }\n                \n                if (lastLine.contains(\"/exit\"\
+    )) {\n                    return CheckResult\n                            .wrong(\"\
+    Your program should remember the user's source and target \" +\n             \
+    \                              \"base and should not return to the top-level menu\
+    \ \" +\n                                           \"until the user enters \\\"\
+    /back\\\"\");\n                }\n                \n                main.execute(\"\
+    /back\");\n            }\n            \n        }\n        \n        main.execute(\"\
+    /exit\");\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n    //test fraction conversion\n    CheckResult\
+    \ test6 () {\n        \n        TestedProgram main = new TestedProgram();\n  \
+    \      int fractionalPartLength;\n        String output;\n        String lastLine;\n\
+    \        String userResult;\n        String actualResult;\n        String randomFraction;\n\
+    \        String[] lines;\n        \n        main.start();\n        \n        for\
+    \ (int sourceBase = 2; sourceBase <= 18; sourceBase += 3) {\n            for (int\
+    \ targetBase = 2; targetBase <= 36; targetBase += 3) {\n                \n   \
+    \             if (sourceBase == targetBase) {\n                    continue;\n\
+    \                }\n                \n                output = main.execute(sourceBase\
+    \ + \" \" + targetBase).toLowerCase();\n                if (!output.contains(\"\
+    base \" + sourceBase) || !output\n                        .contains(\"convert\
+    \ to base \" + targetBase)) {\n                    return CheckResult\n      \
+    \                      .wrong(\"Your program should prompt the user for the number\
+    \ to be \" +\n                                           \"converted with the\
+    \ message \\\"Enter number in base \" +\n                                    \
+    \       \"{user source base} to convert to base {user target base}\" +\n     \
+    \                                      \" (To go back type /back)\\\" after accepting\
+    \ the \" +\n                                           \"source and target base\"\
+    );\n                }\n                \n                if (!output.contains(\"\
+    /back\")) {\n                    return CheckResult\n                        \
+    \    .wrong(\"Your program should provide the user with an option to go \" +\n\
+    \                                           \"back to the top-level menu with\
+    \ the message \\\"Enter number in base \" +\n                                \
+    \           \"{user source base} to convert to base {user target base} \" +\n\
+    \                                           \"(To go back type /back)\\\"\");\n\
+    \                }\n                \n                randomFraction = Generator.getRandomSourceNumber(sourceBase,\
+    \ true);\n                actualResult = Converter.convertSourceToTargetBase(randomFraction,\n\
+    \                                                                   sourceBase,\n\
+    \                                                                   targetBase,\
+    \ true);\n                \n                output = main.execute(randomFraction).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n\n                userResult = getConversionResult(lines);\n\
+    \n                if (!userResult.contains(\".\")) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result your program outputs does not\" +\n\
+    \                                                     \" contain the fractional\
+    \ part\");\n                }\n\n                if (userResult.split(\"\\\\.\"\
+    ).length < 2) {\n                    return CheckResult.wrong(\"A fractional number\
+    \ expected in the output!\");\n                }\n                \n         \
+    \       fractionalPartLength = userResult.split(\"\\\\.\")[1].length();\n    \
+    \            if (fractionalPartLength != 5) {\n                    return CheckResult.wrong(\"\
+    The fractional part of your conversion should only \" +\n                    \
+    \                                 \"be 5 digits in length\");\n              \
+    \  }\n                \n                if (!actualResult.contains(userResult.substring(0,\
+    \ userResult.indexOf(\".\") + 2))) {\n                    return CheckResult.wrong(\"\
+    The conversion result of your program is wrong.\\n\" +\n                     \
+    \   \"Conversion for the number \" + randomFraction +\n                      \
+    \  \" from base \" + sourceBase + \" to base \" + targetBase + \"\\n\" +\n   \
+    \                     \"Your answer: \" + userResult + \"\\n\" +\n           \
+    \             \"Correct answer: \" + actualResult.substring(0, actualResult.indexOf(\"\
+    .\") + 6));\n                }\n                \n                if (main.isFinished())\
+    \ {\n                    return CheckResult\n                            .wrong(\"\
+    Your program should not terminate until the user enter \" +\n                \
+    \                           \"\\\"/exit\\\" in the top-level menu\");\n      \
+    \          }\n                \n                if (lastLine.contains(\"/exit\"\
+    )) {\n                    return CheckResult\n                            .wrong(\"\
+    Your program should remember the user's source and target \" +\n             \
+    \                              \"base and should not return to the top-level menu\
+    \ \" +\n                                           \"until the user enters \\\"\
+    /back\\\"\");\n                }\n                \n                main.execute(\"\
+    /back\");\n            }\n            \n        }\n        \n        main.execute(\"\
+    /exit\");\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n    CheckResult test7 () {\n        \n\
+    \        TestedProgram main = new TestedProgram();\n        int fractionalPartLength;\n\
+    \        String output;\n        String lastLine;\n        String userResult;\n\
+    \        String actualResult;\n        String randomFraction;\n        String[]\
+    \ lines;\n        \n        main.start();\n        \n        for (int sourceBase\
+    \ = 19; sourceBase <= 36; sourceBase += 3) {\n            \n            for (int\
+    \ targetBase = 2; targetBase <= 36; targetBase += 3) {\n                \n   \
+    \             if (sourceBase == targetBase) {\n                    continue;\n\
+    \                }\n                \n                output = main.execute(sourceBase\
+    \ + \" \" + targetBase).toLowerCase();\n                if (!output.contains(\"\
+    base \" + sourceBase) || !output\n                        .contains(\"convert\
+    \ to base \" + targetBase)) {\n                    return CheckResult\n      \
+    \                      .wrong(\"Your program should prompt the user for the number\
+    \ to be \" +\n                                           \"converted with the\
+    \ message \\\"Enter number in base \" +\n                                    \
+    \       \"{user source base} to convert to base {user target base}\" +\n     \
+    \                                      \" (To go back type /back)\\\" after accepting\
+    \ the \" +\n                                           \"source and target base\"\
+    );\n                }\n                \n                if (!output.contains(\"\
+    /back\")) {\n                    return CheckResult\n                        \
+    \    .wrong(\"Your program should provide the user with an option to go \" +\n\
+    \                                           \"back to the top-level menu with\
+    \ the message \\\"Enter number in base \" +\n                                \
+    \           \"{user source base} to convert to base {user target base} \" +\n\
+    \                                           \"(To go back type /back)\\\"\");\n\
+    \                }\n                \n                randomFraction = Generator.getRandomSourceNumber(sourceBase,\
+    \ true);\n                actualResult = Converter.convertSourceToTargetBase(randomFraction,\n\
+    \                                                                   sourceBase,\n\
+    \                                                                   targetBase,\
+    \ true);\n                \n                output = main.execute(randomFraction).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n\n                userResult = getConversionResult(lines);\n\
+    \n                if (!userResult.contains(\".\")) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result your program outputs does not\" +\n\
+    \                                                     \" contain the fractional\
+    \ part\");\n                }\n\n                if (userResult.split(\"\\\\.\"\
+    ).length < 2) {\n                    return CheckResult.wrong(\"A fractional number\
+    \ expected in the output!\");\n                }\n                \n         \
+    \       fractionalPartLength = userResult.split(\"\\\\.\")[1].length();\n    \
+    \            if (fractionalPartLength != 5) {\n                    return CheckResult.wrong(\"\
+    The fractional part of your conversion should only \" +\n                    \
+    \                                 \"be 5 digits in length\");\n              \
+    \  }\n                \n                if (!actualResult.contains(userResult.substring(0,\
+    \ userResult.indexOf(\".\") + 2))) {\n                    return CheckResult.wrong(\"\
+    The conversion result of your program is wrong\");\n                }\n      \
+    \          \n                if (main.isFinished()) {\n                    return\
+    \ CheckResult\n                            .wrong(\"Your program should not terminate\
+    \ until the user enter \" +\n                                           \"\\\"\
+    /exit\\\" in the top-level menu\");\n                }\n                \n   \
+    \             if (lastLine.contains(\"/exit\")) {\n                    return\
+    \ CheckResult\n                            .wrong(\"Your program should remember\
+    \ the user's source and target \" +\n                                        \
+    \   \"base and should not return to the top-level menu \" +\n                \
+    \                           \"until the user enters \\\"/back\\\"\");\n      \
+    \          }\n                \n                main.execute(\"/back\");\n   \
+    \         }\n            \n        }\n        \n        main.execute(\"/exit\"\
+    );\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n    //test fraction using biginteger\n\
+    \    CheckResult test8 () {\n        \n        TestedProgram main = new TestedProgram();\n\
+    \        int fractionalPartLength;\n        String output;\n        String lastLine;\n\
+    \        String userResult;\n        String actualResult;\n        String randomFraction;\n\
+    \        String[] lines;\n        \n        main.start();\n        \n        Converter.setIsBigDec(true);\n\
+    \        \n        for (int sourceBase = 2; sourceBase <= 18; sourceBase += 3)\
+    \ {\n            \n            for (int targetBase = 2; targetBase <= 36; targetBase\
+    \ += 3) {\n                \n                if (sourceBase == targetBase) {\n\
+    \                    continue;\n                }\n                \n        \
+    \        output = main.execute(sourceBase + \" \" + targetBase).toLowerCase();\n\
+    \                if (!output.contains(\"base \" + sourceBase) || !output\n   \
+    \                     .contains(\"convert to base \" + targetBase)) {\n      \
+    \              return CheckResult\n                            .wrong(\"Your program\
+    \ should prompt the user for the number to be \" +\n                         \
+    \                  \"converted with the message \\\"Enter number in base \" +\n\
+    \                                           \"{user source base} to convert to\
+    \ base {user target base}\" +\n                                           \" (To\
+    \ go back type /back)\\\" after accepting the \" +\n                         \
+    \                  \"source and target base\");\n                }\n         \
+    \       \n                if (!output.contains(\"/back\")) {\n               \
+    \     return CheckResult\n                            .wrong(\"Your program should\
+    \ provide the user with an option to go \" +\n                               \
+    \            \"back to the top-level menu with the message \\\"Enter number in\
+    \ base \" +\n                                           \"{user source base} to\
+    \ convert to base {user target base} \" +\n                                  \
+    \         \"(To go back type /back)\\\"\");\n                }\n             \
+    \   \n                randomFraction = Generator.getRandomBigInteger(sourceBase,\
+    \ true);\n                actualResult = Converter.convertSourceToTargetBase(randomFraction,\n\
+    \                                                                   sourceBase,\n\
+    \                                                                   targetBase,\
+    \ true);\n                \n                output = main.execute(randomFraction).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n\n                userResult = getConversionResult(lines);\n\
+    \n                if (!userResult.contains(\".\")) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result your program outputs does not\" +\n\
+    \                                                     \" contain the fractional\
+    \ part\");\n                }\n\n                if (userResult.split(\"\\\\.\"\
+    ).length < 2) {\n                    return CheckResult.wrong(\"A fractional number\
+    \ expected in the output!\");\n                }\n                \n         \
+    \       fractionalPartLength = userResult.split(\"\\\\.\")[1].length();\n    \
+    \            if (fractionalPartLength != 5) {\n                    return CheckResult.wrong(\"\
+    The fractional part of your conversion should only \" +\n                    \
+    \                                 \"be 5 digits in length\");\n              \
+    \  }\n                \n                boolean correct = CheckConversion.check(userResult,\
+    \ actualResult);\n                if (!correct) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result of your program is wrong\\n\" +\n\
+    \                        \"Your answer:\\n\" + userResult + \"\\n\" +\n      \
+    \                  \"Correct answer:\\n\" + actualResult);\n                }\n\
+    \                \n                if (main.isFinished()) {\n                \
+    \    return CheckResult\n                            .wrong(\"Your program should\
+    \ not terminate until the user enter \" +\n                                  \
+    \         \"\\\"/exit\\\" in the top-level menu\");\n                }\n     \
+    \           \n                if (lastLine.contains(\"/exit\")) {\n          \
+    \          return CheckResult\n                            .wrong(\"Your program\
+    \ should remember the user's source and target \" +\n                        \
+    \                   \"base and should not return to the top-level menu \" +\n\
+    \                                           \"until the user enters \\\"/back\\\
+    \"\");\n                }\n                \n                main.execute(\"/back\"\
+    );\n            }\n            \n        }\n        \n        main.execute(\"\
+    /exit\");\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n    CheckResult test9 () {\n        \n\
+    \        TestedProgram main = new TestedProgram();\n        int fractionalPartLength;\n\
+    \        String output;\n        String lastLine;\n        String userResult;\n\
+    \        String actualResult;\n        String randomFraction;\n        String[]\
+    \ lines;\n        \n        main.start();\n        \n        for (int sourceBase\
+    \ = 19; sourceBase <= 36; sourceBase += 3) {\n            \n            for (int\
+    \ targetBase = 2; targetBase <= 36; targetBase += 3) {\n                \n   \
+    \             if (sourceBase == targetBase) {\n                    continue;\n\
+    \                }\n                \n                output = main.execute(sourceBase\
+    \ + \" \" + targetBase).toLowerCase();\n                if (!output.contains(\"\
+    base \" + sourceBase) || !output\n                        .contains(\"convert\
+    \ to base \" + targetBase)) {\n                    return CheckResult\n      \
+    \                      .wrong(\"Your program should prompt the user for the number\
+    \ to be \" +\n                                           \"converted with the\
+    \ message \\\"Enter number in base \" +\n                                    \
+    \       \"{user source base} to convert to base {user target base}\" +\n     \
+    \                                      \" (To go back type /back)\\\" after accepting\
+    \ the \" +\n                                           \"source and target base\"\
+    );\n                }\n                \n                if (!output.contains(\"\
+    /back\")) {\n                    return CheckResult\n                        \
+    \    .wrong(\"Your program should provide the user with an option to go \" +\n\
+    \                                           \"back to the top-level menu with\
+    \ the message \\\"Enter number in base \" +\n                                \
+    \           \"{user source base} to convert to base {user target base} \" +\n\
+    \                                           \"(To go back type /back)\\\"\");\n\
+    \                }\n                \n                randomFraction = Generator.getRandomBigInteger(sourceBase,\
+    \ true);\n                actualResult = Converter.convertSourceToTargetBase(randomFraction,\n\
+    \                                                                   sourceBase,\n\
+    \                                                                   targetBase,\
+    \ true);\n                \n                output = main.execute(randomFraction).toLowerCase();\n\
+    \                \n                lines = output.split(\"\\n\");\n          \
+    \      lastLine = lines[lines.length - 1];\n\n                userResult = getConversionResult(lines);\n\
+    \n                if (!userResult.contains(\".\")) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result your program outputs does not\" +\n\
+    \                                                     \" contain the fractional\
+    \ part\");\n                }\n\n                if (userResult.split(\"\\\\.\"\
+    ).length < 2) {\n                    return CheckResult.wrong(\"A fractional number\
+    \ expected in the output!\");\n                }\n                \n         \
+    \       fractionalPartLength = userResult.split(\"\\\\.\")[1].length();\n    \
+    \            if (fractionalPartLength != 5) {\n                    return CheckResult.wrong(\"\
+    The fractional part of your conversion should only \" +\n                    \
+    \                                 \"be 5 digits in length\");\n              \
+    \  }\n                \n                boolean correct = CheckConversion.check(userResult,\
+    \ actualResult);\n                if (!correct) {\n                    return\
+    \ CheckResult.wrong(\"The conversion result of your program is wrong\\n\" +\n\
+    \                        \"Your answer:\\n\" + userResult + \"\\n\" +\n      \
+    \                  \"Correct answer:\\n\" + actualResult);\n                }\n\
+    \                \n                if (main.isFinished()) {\n                \
+    \    return CheckResult\n                            .wrong(\"Your program should\
+    \ not terminate until the user enter \" +\n                                  \
+    \         \"\\\"/exit\\\" in the top-level menu\");\n                }\n     \
+    \           \n                if (lastLine.contains(\"/exit\")) {\n          \
+    \          return CheckResult\n                            .wrong(\"Your program\
+    \ should remember the user's source and target \" +\n                        \
+    \                   \"base and should not return to the top-level menu \" +\n\
+    \                                           \"until the user enters \\\"/back\\\
+    \"\");\n                }\n                \n                main.execute(\"/back\"\
+    );\n            }\n            \n        }\n        \n        main.execute(\"\
+    /exit\");\n        if (!main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should terminate when the user enters \" +\n                    \
+    \                         \"\\\"/exit\\\"\");\n        }\n        \n        return\
+    \ CheckResult.correct();\n    }\n    \n}\n\nclass Generator {\n    \n    private\
+    \ static String dec;\n    \n    static String getRandomSourceNumber (int sourceBase,\
+    \ boolean fraction) {\n        \n        if (fraction) {\n            double number\
+    \ = new Random().nextDouble() * 1000;\n            dec = String.valueOf(number);\n\
+    \            \n            return Converter.fractionToBaseX(dec, sourceBase);\n\
+    \        } else {\n            int n = new Random().nextInt(1000);\n         \
+    \   \n            return Integer.toString(n, sourceBase);\n        }\n       \
+    \ \n    }\n    \n    static String getDec () {\n        \n        return dec;\n\
+    \    }\n    \n    static String getRandomBigInteger (int sourceBase, boolean fraction)\
+    \ {\n        \n        if (fraction) {\n            \n            BigDecimal max\
+    \ = new BigDecimal(\"500000000000000.0\");\n            BigDecimal randFromDouble\
+    \ = BigDecimal.valueOf(Math.random());\n            BigDecimal actualRandomDec\
+    \ = randFromDouble.multiply(max);\n            \n            actualRandomDec =\
+    \ actualRandomDec.setScale(10, RoundingMode.FLOOR);\n            dec = actualRandomDec.toString();\n\
+    \            \n            return Converter.fractionToBaseX(dec, sourceBase);\n\
+    \        } else {\n            \n            BigInteger upperLimit = new BigInteger(\"\
+    500000000000000\");\n            BigInteger randomNumber;\n            do {\n\
+    \                randomNumber = new BigInteger(upperLimit.bitLength(), new Random());\n\
+    \            } while (randomNumber.compareTo(upperLimit) >= 0);\n            \n\
+    \            return randomNumber.toString(sourceBase);\n        }\n        \n\
+    \    }\n}\n\nclass Converter {\n    \n    static boolean isBigDec = false;\n \
+    \   \n    static void setIsBigDec (boolean bigDec) {\n        \n        isBigDec\
+    \ = bigDec;\n    }\n    \n    static String decimalToBaseX (String num, int targetBase)\
+    \ {\n        \n        return new BigInteger(num).toString(targetBase);\n    }\n\
+    \    \n    \n    static String baseXToDecimal (String number, int sourceBase)\
+    \ {\n        \n        BigInteger integer = new BigInteger(number, sourceBase);\n\
+    \        return integer.toString();\n    }\n    \n    static String convertSourceToTargetBase\
+    \ (String number, int sourceBase, int targetBase,\n                          \
+    \                   boolean fraction) {\n        \n        if (fraction) {\n \
+    \           \n            //Step 1- Convert to decimal\n            String decimalResult\
+    \ = isBigDec ? Generator.getDec() : baseXToDecimalFraction(number,\n         \
+    \                                                                            \
+    \     number.length(),\n                                                     \
+    \                                     sourceBase);\n            \n           \
+    \ //Step 2- Convert to target base\n            String result = fractionToBaseX(decimalResult,\
+    \ targetBase);\n            return result;\n        } else {\n            \n \
+    \           //Step 1 - convert source number to decimal\n            String decimal\
+    \ = baseXToDecimal(number, sourceBase);\n            \n            //Step 2 -\
+    \ convert decimal to target base\n            return decimalToBaseX(decimal, targetBase);\n\
+    \        }\n        \n    }\n    \n    static String fractionToBaseX (String number,\
+    \ int targetBase) {\n        \n        String digits = \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"\
+    .toLowerCase();\n        \n        StringBuilder output = new StringBuilder();\n\
+    \        BigDecimal doubleOfDecInp = new BigDecimal(number);\n        \n     \
+    \   BigInteger beforeDot = new BigDecimal(number).toBigInteger();\n        output.append(beforeDot.toString(targetBase));\n\
+    \        \n        BigDecimal bfd = new BigDecimal(beforeDot);\n        \n   \
+    \     doubleOfDecInp = doubleOfDecInp.subtract(bfd);\n        \n        output.append(\"\
+    .\");\n        \n        BigInteger subtract = new BigDecimal(String.valueOf(doubleOfDecInp)).toBigInteger();\n\
+    \        BigDecimal bdOfDecInp = new BigDecimal(String.valueOf(doubleOfDecInp));\n\
+    \        BigDecimal bdFractionalPart = bdOfDecInp.subtract(new BigDecimal(subtract));\n\
+    \        double fractionalPart = bdFractionalPart.doubleValue();\n        \n \
+    \       if (!isBigDec) {\n            \n            for (int i = 0; i < targetBase;\
+    \ ++i) {\n                \n                fractionalPart = fractionalPart *\
+    \ targetBase;\n                int digit = (int) fractionalPart;\n           \
+    \     char c = digits.charAt(digit);\n                \n                output.append(c);\n\
+    \                \n                fractionalPart = fractionalPart - digit;\n\
+    \                \n                if (fractionalPart == 0) {\n              \
+    \      break;\n                }\n            }\n            \n        } else\
+    \ {\n            \n            for (int i = 0; i < number.length(); ++i) {\n \
+    \               \n                fractionalPart = fractionalPart * targetBase;\n\
+    \                int digit = (int) fractionalPart;\n                char c = digits.charAt(digit);\n\
+    \                \n                output.append(c);\n                \n     \
+    \           fractionalPart = fractionalPart - digit;\n                \n     \
+    \           if (fractionalPart == 0) {\n                    break;\n         \
+    \       }\n            }\n            \n        }\n        \n        while (output.toString().split(\"\
+    \\\\.\")[1].length() < 5) {\n            output.append(\"0\");\n        }\n  \
+    \      \n        return output.toString();\n    }\n    \n    static String baseXToDecimalFraction\
+    \ (String number, int len, int sourceBase) {\n        \n        String digits\
+    \ = \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n        number = number.toUpperCase();\n\
+    \        \n        // Fetch the radix point\n        int point = number.indexOf('.');\n\
+    \        \n        // Update point if not found\n        if (point == -1) {\n\
+    \            point = len;\n        }\n        \n        BigDecimal integralPart\
+    \ = new BigDecimal(0);\n        BigDecimal fractionalPart = new BigDecimal(0);\n\
+    \        BigDecimal multiplier = new BigDecimal(1);\n        \n        // Convert\
+    \ integral part of number to decimal\n        // equivalent\n        \n      \
+    \  BigDecimal sourceBaseBig = new BigDecimal(sourceBase);\n        if (number.matches(\"\
+    \\\\d+.\\\\d*\")) {\n            for (int i = point - 1; i >= 0; i--) {\n    \
+    \            char c = number.charAt(i);\n                \n                BigDecimal\
+    \ holder = new BigDecimal(c - '0');\n                integralPart = integralPart.add((holder.multiply(multiplier)));\n\
+    \                multiplier = multiplier.multiply(sourceBaseBig);\n          \
+    \  }\n            \n            // Convert fractional part of number to\n    \
+    \        // decimal equivalent\n            \n            multiplier = sourceBaseBig;\n\
+    \            for (int i = point + 1; i < len; i++) {\n                \n     \
+    \           char c = number.charAt(i);\n                \n                BigDecimal\
+    \ holder = new BigDecimal((c - '0'));\n                fractionalPart = fractionalPart.add((holder).divide(multiplier,\
+    \ 10,\n                                                                    RoundingMode.HALF_UP));\n\
+    \                multiplier = multiplier.multiply(new BigDecimal(String.valueOf(sourceBase)));\n\
+    \            }\n        } else {\n            for (int i = 0; i < point; i++)\
+    \ {\n                char c = number.charAt(i);\n                int d = digits.indexOf(c);\n\
+    \                integralPart =\n                        (sourceBaseBig.multiply(integralPart)).add(new\
+    \ BigDecimal(d));\n                \n            }\n            \n           \
+    \ multiplier = sourceBaseBig;\n            for (int i = point + 1; i < len; i++)\
+    \ {\n                char c = number.charAt(i);\n                int d = digits.indexOf(c);\n\
+    \                BigDecimal holder = new BigDecimal(d);\n                fractionalPart\
+    \ = fractionalPart.add((holder).divide(multiplier, 10,\n                     \
+    \                                               RoundingMode.HALF_UP));\n    \
+    \            multiplier = multiplier.multiply(sourceBaseBig);\n            }\n\
+    \            \n        }\n        \n        String result = (integralPart.add(fractionalPart)).toString();\n\
+    \        return result;\n    }\n    \n}\n\nclass CheckConversion {\n    \n   \
+    \ static boolean check (String userResult, String actualResult) {\n        \n\
+    \        String digits = \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\".toLowerCase();\n\
+    \        String[] arrUser = userResult.split(\"\\\\.\");\n        String[] arrActual\
+    \ = actualResult.split(\"\\\\.\");\n        String decimalPartUser = arrUser[1];\n\
+    \        String decimalPartActual = arrActual[1];\n        \n        if (!arrUser[0].equals(arrActual[0]))\
+    \ {\n            return false;\n        }\n        \n        char firstDigit =\
+    \ decimalPartUser.charAt(0);\n        char firstDigitActual = decimalPartActual.charAt(0);\n\
+    \        int resultIndex = digits.indexOf(firstDigitActual);\n        \n     \
+    \   if (firstDigit != firstDigitActual) {\n            char maxChar = 'Z';\n \
+    \           char minChar = '0';\n\n            if (firstDigit == maxChar) {\n\
+    \                return digits.indexOf(firstDigit - 1) == firstDigitActual;\n\
+    \            } else if (firstDigit == minChar) {\n                return digits.indexOf(firstDigit\
+    \ + 1) == firstDigitActual;\n            } else {\n                return digits.indexOf(firstDigit)\
+    \ + 1 == resultIndex || digits\n                        .indexOf(firstDigit) -\
+    \ 1 == resultIndex;\n            }\n            \n        } else {\n         \
+    \   return true;\n        }\n        \n    }\n}\n"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12348#comment
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Sun, 22 May 2022 16:31:43 UTC
+record: -1

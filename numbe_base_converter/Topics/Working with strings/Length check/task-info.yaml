@@ -1,0 +1,26 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: word.length == 1
+- text: word.lastIndex &gt;= 0
+- text: '!word.isEmpty()'
+- text: word.length &gt; 0
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/18838#comment
+status: Failed
+feedback:
+  message: Answer choices will be shuffled next time.
+  time: Mon, 16 May 2022 16:44:24 UTC
+record: -1
+selected_options:
+- 2
+- 3
